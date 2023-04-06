@@ -1,0 +1,58 @@
+name: add-tests-to-module
+description: Add test class and other required classes to a test module
+display-name: add-tests-to-module
+picture: plugin.png
+category: backend # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/plugin/#category
+compatibility:
+  - java
+  - spring
+about: docs/about.md
+usage: docs/usage.md
+use-case: docs/use-case.md
+implementation: docs/implementation.md
+technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies
+  - "Api"
+types:
+  - app
+inputs:
+  - label: Module name
+    type: text
+    name: module_name
+    default: new-module
+  - label: Service under test
+    type: text
+    name: service_name
+    default: Api
+  - label: This tests needs a factory class?
+    type: bool
+    name: need_factory
+    default: false
+
+computed-inputs:
+  module_name_kebabcase: "{{module_name|kebabcase}}"
+  service_name_pascal: "{{service_name|pascalcase}}"
+  service_name_camelcase: "{{service_name|camelcase}}"
+
+hooks:
+  - type: render-templates
+    trigger: after-render
+    path: skeletons/need-factory
+    condition:
+      variable: need_factory
+      operator: ==
+      value: true
+  - type: render-templates
+    trigger: after-render
+    path: skeletons/not-need-factory
+    condition:
+      variable: need_factory
+      operator: ==
+      value: false
+  - type: run
+    trigger: after-render
+    linux:
+      - git add .
+    mac:
+      - git add .
+    windows:
+      - cmd /c git add .
