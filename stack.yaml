@@ -1,6 +1,6 @@
 description: Stack utilizada pelos QAs da Claro para criar testes automatizados de API.
 name: stack-qa-claro-flex
-display-name: stack-qa-claro-flex
+display-name: Claro Flex Test Automation
 picture: stack.png
 category: backend # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/plugin/#category
 compatibility: # Put a list of technologies compatible with the stack
