@@ -4,10 +4,11 @@ display-name: Claro Flex Test Automation
 picture: stack.png
 category: backend # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/plugin/#category
 compatibility: # Put a list of technologies compatible with the stack
-  - java
-  - spring
+  - kotlin
+  - rest assured
 technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies 
-  - docker 
+  - kotlin
+  - gradle
 about: docs/about.md
 use-cases:
   - title: Use Case Title

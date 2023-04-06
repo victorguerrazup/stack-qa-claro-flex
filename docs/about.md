@@ -1,1 +1,1 @@
-# About stack-qa-claro-flex stack
+# About Claro Flex Test Automation stack
