@@ -31,6 +31,6 @@ hooks:
     changes:
      - insert:
         line: -1
-        value: 'include("{{module_name_kebabcase}}")'
+        value: "\ninclude(\"{{module_name_kebabcase}}\")"
         when:
-            not-exists: 'include("{{module_name_kebabcase}}")'
+            not-exists: "include(\"{{module_name_kebabcase}}\")"
