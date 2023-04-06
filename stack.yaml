@@ -1,4 +1,4 @@
-description: Descreva o seu stack explicando o seu propósito.
+description: Stack utilizada pelos QAs da Claro para criar testes automatizados de API.
 name: stack-qa-claro-flex
 display-name: stack-qa-claro-flex
 picture: stack.png
