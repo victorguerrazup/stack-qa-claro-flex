@@ -42,7 +42,7 @@ global-computed-inputs:
 hooks:
   - type: edit
     trigger: before-render
-    path: base-model/src/main/kotlin/apis/{{service_name_pascal}}.kt
+    path: base-module/src/main/kotlin/apis/{{service_name_pascal}}.kt
     changes:
      - search:
         string: "fun"

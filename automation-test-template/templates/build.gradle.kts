@@ -4,11 +4,13 @@ plugins {
     kotlin("jvm") version "{{kotlin_version}}"
 }
 
-group = "{{project_group}}"
-version = "{{project_version}}"
+allprojects() {
+    group = "{{project_group}}"
+    version = "{{project_version}}"
 
-repositories {
-    mavenCentral()
+    repositories {
+        mavenCentral()
+    }
 }
 
 dependencies {

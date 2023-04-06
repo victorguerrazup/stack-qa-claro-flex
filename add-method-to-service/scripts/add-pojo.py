@@ -8,8 +8,8 @@ def run(metadata: Metadata = None):
   inputs_computed_global = metadata.global_computed_inputs
   target_path = metadata.target_path
 
-  apiFile = path.join(target_path, 'base-model', 'src', 'main', 'kotlin', 'apis', inputs_computed_global['service_name_pascal'] + '.kt')
-  pojoFile = path.join(target_path, 'base-model', 'src', 'main', 'kotlin', 'pojos', inputs_computed_global['service_name_pascal'] + 'Pojo.kt')
+  apiFile = path.join(target_path, 'base-module', 'src', 'main', 'kotlin', 'apis', inputs_computed_global['service_name_pascal'] + '.kt')
+  pojoFile = path.join(target_path, 'base-module', 'src', 'main', 'kotlin', 'pojos', inputs_computed_global['service_name_pascal'] + 'Pojo.kt')
   
   if has_body:
     if not path.exists(pojoFile):
