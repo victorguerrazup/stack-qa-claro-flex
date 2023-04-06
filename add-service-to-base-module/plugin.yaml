@@ -1,0 +1,56 @@
+name: add-service-to-base-module
+description: Add an API to the base module
+display-name: add-service-to-base-module
+picture: plugin.png
+category: backend # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/plugin/#category
+compatibility:
+  - kotlin
+  - spring
+about: docs/about.md
+usage: docs/usage.md
+use-case: docs/use-case.md
+implementation: docs/implementation.md
+technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies
+  - "Api"
+types:
+  - app
+inputs:
+  - label: Service name
+    type: text
+    name: service_name
+    default: Api
+  - label: Service method
+    type: text
+    name: service_method
+    items:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - PATCH
+  - label: This service has a body?
+    type: bool
+    name: has_body
+    default: false
+
+global-computed-inputs:
+  service_name_pascal: "{{service_name|pascalcase}}"
+  service_name_camelcase: "{{service_name|camelcase}}"
+  service_name_macrocase: "{{service_name|macrocase}}"
+  service_method_lower: "{{service_method|lower}}"
+
+hooks:
+  - type: render-templates
+    trigger: after-render
+    path: skeletons/has-body
+    condition:
+      variable: has_body
+      operator: ==
+      value: true
+  - type: render-templates
+    trigger: after-render
+    path: skeletons/not-has-body
+    condition:
+      variable: has_body
+      operator: ==
+      value: false

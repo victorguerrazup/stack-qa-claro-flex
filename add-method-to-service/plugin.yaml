@@ -1,0 +1,55 @@
+name: add-method-to-service
+description: Add a method to an existent API in base module
+display-name: add-method-to-service
+picture: plugin.png
+category: backend # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/plugin/#category
+compatibility:
+  - java
+  - spring
+about: docs/about.md
+usage: docs/usage.md
+use-case: docs/use-case.md
+implementation: docs/implementation.md
+technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies
+  - "Api"
+types:
+  - app
+inputs:
+  - label: Service name
+    type: text
+    name: service_name
+    default: Api
+  - label: Service method
+    type: text
+    name: service_method
+    items:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - PATCH
+  - label: This service has a body?
+    type: bool
+    name: has_body
+    default: false
+
+global-computed-inputs:
+  service_name_pascal: "{{service_name|pascalcase}}"
+  service_name_camelcase: "{{service_name|camelcase}}"
+  service_name_macrocase: "{{service_name|macrocase}}"
+  service_method_lower: "{{service_method|lower}}"
+
+hooks:
+  - type: edit
+    trigger: before-render
+    path: base-model/src/main/kotlin/apis/{{service_name_pascal}}.kt
+    changes:
+     - search:
+        string: "fun"
+        insert-before:
+          snippet: snippets/api-method
+  - type: run-script
+    trigger: before-render
+    script: scripts/add-pojo.py
+  
+

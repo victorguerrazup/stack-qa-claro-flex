@@ -1,0 +1,27 @@
+name: automation-test-template
+description: Create a automation test project using Kotlin + Rest Assured
+types:
+  - app-template
+inputs:
+  - label: Project name
+    type: text
+    name: project_name
+    default: new-project
+  - label: Project group Id
+    type: text
+    name: project_group
+    default: br.com.example
+    global: true
+    pattern: '(^[a-zA-Z_\d.]*)'
+  - label: Project version
+    type: text
+    name: project_version
+    default: '1.0'
+  - label: Kotlin version
+    type: text
+    name: kotlin_version
+    default: '1.7.21'
+  - label: JVM target
+    type: text
+    name: jvm_target
+    default: '17'
