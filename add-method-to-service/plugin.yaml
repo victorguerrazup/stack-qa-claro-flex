@@ -33,7 +33,7 @@ inputs:
     name: has_body
     default: false
 
-global-computed-inputs:
+computed-inputs:
   service_name_pascal: "{{service_name|pascalcase}}"
   service_name_camelcase: "{{service_name|camelcase}}"
   service_name_macrocase: "{{service_name|macrocase}}"

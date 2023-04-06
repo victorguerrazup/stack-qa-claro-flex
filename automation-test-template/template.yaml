@@ -7,11 +7,11 @@ inputs:
     type: text
     name: project_name
     default: new-project
+    global: true
   - label: Project group Id
     type: text
     name: project_group
     default: br.com.example
-    global: true
     pattern: '(^[a-zA-Z_\d.]*)'
   - label: Project version
     type: text

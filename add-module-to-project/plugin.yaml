@@ -20,8 +20,7 @@ inputs:
     name: module_name
     default: new-module
 
-
-global-computed-inputs:
+computed-inputs:
   module_name_kebabcase: "{{module_name|kebabcase}}"
 
 hooks:
