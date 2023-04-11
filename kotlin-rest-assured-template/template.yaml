@@ -1,4 +1,4 @@
-name: automation-test-template
+name: kotlin-rest-assured-template
 description: Create a automation test project using Kotlin + Rest Assured
 types:
   - app-template

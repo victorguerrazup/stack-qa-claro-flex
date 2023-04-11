@@ -1,4 +1,4 @@
 type: app
 description: Default stackfile usecase description
 # template used to create the project
-template: stack-qa-kotlin-rest-assured/automation-test-template
+template: stack-qa-kotlin-rest-assured/kotlin-rest-assured-template
