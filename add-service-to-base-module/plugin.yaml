@@ -54,3 +54,11 @@ hooks:
       variable: has_body
       operator: ==
       value: false
+  - type: run
+    trigger: after-render
+    linux:
+      - git add .
+    mac:
+      - git add .
+    windows:
+      - cmd /c git add .
