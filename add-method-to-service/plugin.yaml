@@ -51,5 +51,12 @@ hooks:
   - type: run-script
     trigger: before-render
     script: scripts/add-pojo.py
-  
+  - type: run
+    trigger: after-render
+    linux:
+      - git add .
+    mac:
+      - git add .
+    windows:
+      - cmd /c git add .
 
