@@ -25,3 +25,13 @@ inputs:
     type: text
     name: jvm_target
     default: '17'
+
+hooks:
+  - type: run
+    trigger: after-render
+    linux:
+      - git init
+    mac:
+      - git init
+    windows:
+      - cmd /c git init

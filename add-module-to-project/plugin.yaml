@@ -33,3 +33,11 @@ hooks:
         value: "\ninclude(\"{{module_name_kebabcase}}\")"
         when:
             not-exists: "include(\"{{module_name_kebabcase}}\")"
+  - type: run
+    trigger: after-render
+    linux:
+      - git add .
+    mac:
+      - git add .
+    windows:
+      - cmd /c git add .

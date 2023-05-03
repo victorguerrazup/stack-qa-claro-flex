@@ -49,7 +49,7 @@ hooks:
       value: true
   - type: render-templates
     trigger: after-render
-    path: skeletons/not-has-body
+    path: skeletons/no-has-body
     condition:
       variable: has_body
       operator: ==
