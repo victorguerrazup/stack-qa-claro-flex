@@ -43,7 +43,7 @@ hooks:
       value: true
   - type: render-templates
     trigger: after-render
-    path: skeletons/not-need-factory
+    path: skeletons/no-need-factory
     condition:
       variable: need_factory
       operator: ==
