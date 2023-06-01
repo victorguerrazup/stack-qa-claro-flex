@@ -64,22 +64,9 @@ spec:
   - type: run-script
     trigger: before-render
     script: scripts/pre-render.py
-  - type: edit
+  - type: run-script
     trigger: before-render
-    path: "base-module/build.gradle.kts"
-    changes:
-    - search:
-      string: "dependencies {"
-      insert-after: "    implementation(\"{{database_package_group}}:{{database_package_id}}:{{database_package_version}}\")\n"
-      when:
-        not-exists: "implementation(\"{{database_package_group}}:{{database_package_id}})"
-  - type: render-templates
-    trigger: after-render
-    path: skeletons/not-has-class
-    condition:
-      variable: has_class
-      operator: ==
-      value: false
+    script: scripts/add-package.py
   - type: run
     trigger: after-render
     linux:

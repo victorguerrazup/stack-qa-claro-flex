@@ -1,0 +1,6 @@
+
+{{database_properties_prefix}}.host = {{database_host}}
+{{database_properties_prefix}}.port = {{database_port}}
+{{database_properties_prefix}}.name = {{database_name}}
+{{database_properties_prefix}}.user = {{database_user}}
+{{database_properties_prefix}}.password = {{database_password}}

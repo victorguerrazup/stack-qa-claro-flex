@@ -1,12 +1,16 @@
 from templateframework.metadata import Metadata
 from os import path
-import json
 
 def run(metadata: Metadata = None):
   target_path = metadata.target_path
+  component_path = metadata.component_path
   connectionSqlFile = path.join(target_path, 'base-module', 'src', 'main', 'kotlin', 'database', 'ConnectionSQL.kt')
+  snippetFile = path.join(component_path, 'snippets', 'ConnectionSQL.kt')
 
-  metadata.computed_inputs['has_class'] = not path.exists(connectionSqlFile)
+  if not path.exists(connectionSqlFile):
+    with open(snippetFile, "rt") as snippet:
+      with open(connectionSqlFile, "wt") as connectionSql:
+        connectionSql.write(snippet.read())
 
   if metadata.inputs['database'] == 'postgresql':
     metadata.computed_inputs['database_package_group'] = 'org.postgresql'

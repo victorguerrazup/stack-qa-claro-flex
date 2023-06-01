@@ -61,34 +61,26 @@ spec:
     database_name_camelcase: "{{database_name|camelcase}}"
   
   hooks:
+  - type: run-script
+    trigger: before-render
+    script: "scripts/add-conn.py"
   - type: edit
     trigger: after-render
     path: "base-module/src/main/resources/properties/{{environment|lower}}.properties"
     changes:
     - insert:
         line: -1
-        value: "{{database_properties_prefix}}.host = {{database_host}}\n{{database_properties_prefix}}.port = {{database_port}}\n{{database_properties_prefix}}.name = {{database_name}}\n{{database_properties_prefix}}.user = {{database_user}}\n{{database_properties_prefix}}.password = {{database_password}}\n\n"
+        snippet: "snippets/properties"
         when:
           not-exists: "{{database_properties_prefix}}"
-  - type: edit
+  - type: run
     trigger: after-render
-    path: "base-module/src/main/kotlin/database/ConnectionSQL.kt"
-    changes:
-    - search:
-      string: "companion object {"
-      replace-by:
-        snippet: "snippets/connection"
-      when:
-        not-exists: "fun {{database_name_camelcase}}Connection"
-
-  # - type: run
-  #   trigger: after-render
-  #   linux:
-  #   - git add .
-  #   mac:
-  #   - git add .
-  #   windows:
-  #   - cmd /c git add .
+    linux:
+    - git add .
+    mac:
+    - git add .
+    windows:
+    - cmd /c git add .
 metadata:
   picture: plugin.png
   display-name: add-database-connection
