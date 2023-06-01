@@ -1,0 +1,68 @@
+kind: plugin
+schema-version: v1
+spec:
+  about: docs/about.md
+  requirements: docs/requirements.md
+  implementation: docs/implementation.md
+  type: app
+  release-notes: docs/release-notes-0.0.1.md
+  usage: docs/usage.md
+  technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies
+  - "Api"
+  - "Kotlin"
+  - "Rest Assured"
+  compatibility:
+  - kotlin
+  inputs:
+  - label: Nome do módulo
+    type: text
+    name: module_name
+    default: new-module
+    pattern: "^[A-z][A-z0-9 -]*[A-z0-9]$"
+    help: "Informe o nome do módulo onde os testes serão adicionados"
+  - label: API sob teste
+    type: text
+    name: service_name
+    default: Api
+    pattern: "^[A-z][A-z0-9 -]*[A-z0-9]$"
+    help: "Informe a API que será testada"
+  - label: Os testes precisam de um factory?
+    type: bool
+    name: need_factory
+    default: false
+    help: "Informe se os testes precisam de uma classe factory para montar os payloads"
+
+  computed-inputs:
+    module_name_kebabcase: "{{module_name|kebabcase}}"
+    service_name_pascal: "{{service_name|pascalcase}}"
+    service_name_camelcase: "{{service_name|camelcase}}"
+
+  hooks:
+  - type: render-templates
+    trigger: after-render
+    path: skeletons/need-factory
+    condition:
+      variable: need_factory
+      operator: ==
+      value: true
+  - type: render-templates
+    trigger: after-render
+    path: skeletons/no-need-factory
+    condition:
+      variable: need_factory
+      operator: ==
+      value: false
+  - type: run
+    trigger: after-render
+    linux:
+    - git add .
+    mac:
+    - git add .
+    windows:
+    - cmd /c git add .
+metadata:
+  picture: plugin.png
+  display-name: add-tests
+  version: 1.0.0
+  name: add-tests
+  description: Adiciona classes de teste a um módulo do projeto

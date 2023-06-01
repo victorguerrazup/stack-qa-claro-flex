@@ -1,0 +1,18 @@
+    companion object {
+              
+        @JvmStatic
+        fun {{database_name_camelcase}}Connection() : Connection {
+            val {{database_name_camelcase}}Prefix = "db.claro.flex.ext"
+            val connection: Connection?
+            val host = envProperties.getProperty("${{{database_name_camelcase}}Prefix}.host")
+            val port = envProperties.getProperty("${{{database_name_camelcase}}Prefix}.port")
+            val database = envProperties.getProperty("${{{database_name_camelcase}}Prefix}.name")
+            val user = envProperties.getProperty("${{{database_name_camelcase}}Prefix}.user")
+            val password = envProperties.getProperty("${{{database_name_camelcase}}Prefix}.password")
+            val url = "jdbc:{{databse}}://${host}:${port}/${database}"
+
+            Class.forName("org.{{database}}.Driver")
+            connection = DriverManager.getConnection(url, user, password)
+
+            return connection
+        }

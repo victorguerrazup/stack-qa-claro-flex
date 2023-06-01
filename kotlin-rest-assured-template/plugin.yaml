@@ -1,0 +1,52 @@
+kind: plugin
+schema-version: v1
+spec:
+  about: docs/about.md
+  requirements: docs/requirements.md
+  implementation: docs/implementation.md
+  type: app
+  release-notes: docs/release-notes-0.0.1.md
+  usage: docs/usage.md
+  technologies:
+  - Api
+  compatibility:
+  - python
+  inputs:
+  - label: Project name
+    type: text
+    name: project_name
+    default: new-project
+    global: true
+  - label: Project group Id
+    type: text
+    name: project_group
+    default: br.com.example
+    pattern: '(^[a-zA-Z_\d.]*)'
+  - label: Project version
+    type: text
+    name: project_version
+    default: '1.0'
+  - label: Kotlin version
+    type: text
+    name: kotlin_version
+    default: '1.7.21'
+  - label: JVM target
+    type: text
+    name: jvm_target
+    default: '17'
+
+  hooks:
+  - type: run
+    trigger: after-render
+    linux:
+    - git init
+    mac:
+    - git init
+    windows:
+    - cmd /c git init
+metadata:
+  picture: picture.png
+  display-name: kotlin-rest-assured-template
+  version: 0.0.1
+  name: kotlin-rest-assured-template
+  description: Create a automation test project using Kotlin + Rest Assured

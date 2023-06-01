@@ -1,0 +1,71 @@
+kind: plugin
+schema-version: v1
+spec:
+  about: docs/about.md
+  requirements: docs/requirements.md
+  implementation: docs/implementation.md
+  type: app
+  release-notes: docs/release-notes-0.0.1.md
+  usage: docs/usage.md
+  technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies
+  - "Api"
+  - "Kotlin"
+  - "Rest Assured"
+  compatibility:
+  - kotlin
+  inputs:
+  - label: Nome da API
+    type: text
+    name: service_name
+    default: Api
+    pattern: "^[A-z][A-z0-9 -]*[A-z0-9]$"
+    help: "Informe o nome da API para adicionar ao projeto"
+  - label: Método HTTP
+    type: text
+    name: service_method
+    items:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+    help: "Informe método http será utilizado nessa API"
+  - label: A API possui um payload?
+    type: bool
+    name: has_body
+    default: false
+    help: "Informe se a API possui payload para ser enviado na requisição"
+
+  computed-inputs:
+    service_name_pascal: "{{service_name|pascalcase}}"
+    service_name_camelcase: "{{service_name|camelcase}}"
+    service_name_macrocase: "{{service_name|macrocase}}"
+    service_method_lower: "{{service_method|lower}}"
+
+  hooks:
+  - type: edit
+    trigger: before-render
+    path: base-module/src/main/kotlin/apis/{{service_name_pascal}}.kt
+    changes:
+    - search:
+        string: "fun"
+        insert-before:
+          snippet: snippets/api-method
+  - type: run-script
+    trigger: before-render
+    script: scripts/add-pojo.py
+  - type: run
+    trigger: after-render
+    linux:
+    - git add .
+    mac:
+    - git add .
+    windows:
+    - cmd /c git add .
+
+metadata:
+  picture: plugin.png
+  display-name: add-http-method
+  version: 1.0.0
+  name: add-http-method
+  description: Adiciona um novo método HTTP a uma API existente

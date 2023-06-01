@@ -1,0 +1,96 @@
+kind: plugin
+schema-version: v1
+spec:
+  about: docs/about.md
+  requirements: docs/requirements.md
+  implementation: docs/implementation.md
+  type: app
+  release-notes: docs/release-notes-0.0.1.md
+  usage: docs/usage.md
+  technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies
+  - "Kotlin"
+  - "PostgreSQL"
+  compatibility:
+  - kotlin
+  
+  inputs:
+  - label: Tipo de banco de dados
+    type: text
+    name: database
+    items:
+    - postgresql
+    help: Informe o tipo de banco de dados
+  - label: Ambiente
+    type: text
+    name: environment
+    items:
+    - sit
+    help: Informe o ambiente do banco de dados
+  - label: Servidor (host)
+    type: text
+    name: database_host
+    default: localhost
+    pattern: "[A-z0-9-_\\.]+"
+    help: Informe o servidor do banco de dados
+  - label: Porta (porta)
+    type: text
+    name: database_port
+    default: 5432
+    pattern: "\\d+"
+    help: Informe a porta do banco de dados
+  - label: Nome da base dados
+    type: text
+    name: database_name
+    default: database
+    pattern: "[A-z0-9-_\\.]+"
+    help: Informe o nome da base de dados
+  - label: Usuário do banco dados
+    type: text
+    name: database_user
+    default: user
+    pattern: "[A-z0-9-_\\.]+"
+    help: Informe o usuário do banco de dados
+  - label: Senha do banco dados
+    type: text
+    name: database_password
+    default: password
+    help: Informe a senha do banco de dados
+
+  computed_inputs:
+    database_properties_prefix: "db.{{database_name|replace('_','.')}}"
+    database_name_camelcase: "{{database_name|camelcase}}"
+  
+  hooks:
+  - type: run-script
+    trigger: before-render
+    script: scripts/pre-render.py
+  - type: edit
+    trigger: before-render
+    path: "base-module/build.gradle.kts"
+    changes:
+    - search:
+      string: "dependencies {"
+      insert-after: "    implementation(\"{{database_package_group}}:{{database_package_id}}:{{database_package_version}}\")\n"
+      when:
+        not-exists: "implementation(\"{{database_package_group}}:{{database_package_id}})"
+  - type: render-templates
+    trigger: after-render
+    path: skeletons/not-has-class
+    condition:
+      variable: has_class
+      operator: ==
+      value: false
+  - type: run
+    trigger: after-render
+    linux:
+    - stk apply plugin {{stack_path}}/add-database-connection --database {{database}} --environment {{environment}} --database_host {{database_host}} --database_port {{database_port}} --database_name {{database_name}} --database_user {{database_user}} --database_password {{database_password}}
+    mac:
+    - stk apply plugin {{stack_path}}/add-database-connection --database {{database}} --environment {{environment}} --database_host {{database_host}} --database_port {{database_port}} --database_name {{database_name}} --database_user {{database_user}} --database_password {{database_password}}
+    windows:
+    - cmd /c stk apply plugin {{stack_path}}/add-database-connection --database {{database}} --environment {{environment}} --database_host {{database_host}} --database_port {{database_port}} --database_name {{database_name}} --database_user {{database_user}} --database_password {{database_password}}
+metadata:
+  picture: plugin.png
+  display-name: apply-database
+  version: 1.0.0
+  name: apply-database
+  description: Adiciona classe para conexão com bancos de dados

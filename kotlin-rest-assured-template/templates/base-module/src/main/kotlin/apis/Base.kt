@@ -13,15 +13,16 @@ import java.util.*
 open class Base {
 
     private val baseConst = BaseConst()
-    private val sitProperties: Properties = getProperties("sit.properties")
-
-    private val restAssuredRequestFilter = RestAssuredRequestFilter()
     companion object {
+        lateinit var envProperties: Properties
         lateinit var massProperties: Properties
     }
 
     @BeforeAll
     fun setup() {
+        var env = System.getenv("TEST_ENV")
+        if (env == null) env = "sit"
+        envProperties = getProperties("${env.lowercase()}.properties")
         massProperties = getProperties("mass.properties")
     }
 
