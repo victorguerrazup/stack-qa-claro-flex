@@ -18,10 +18,10 @@ open class ConnectionSQL(val tableName: String, private val connection: Connecti
     companion object {
     }
 
-    protected fun getResultSetAsList(resultSet: ResultSet): List<Map<String, Any>> {
-        var resultList: MutableList<Map<String, Any>> = mutableListOf()
+    private fun getResultSetAsList(resultSet: ResultSet): List<Map<String, Any?>> {
+        val resultList: MutableList<Map<String, Any?>> = mutableListOf()
         while(resultSet.next()) {
-            val resultMap = LinkedHashMap<String, Any>()
+            val resultMap = LinkedHashMap<String, Any?>()
             val numberOfColumns = resultSet.metaData.columnCount
             for (i in 1 .. numberOfColumns) {
                 resultMap[resultSet.metaData.getColumnName(i)] = resultSet.getObject(i)
@@ -31,27 +31,25 @@ open class ConnectionSQL(val tableName: String, private val connection: Connecti
         return resultList.toList()
     }
 
-    protected fun getColumn(columnName: String, results: List<Map<String, Any>>): List<Any?> {
-        var columnValues = mutableListOf<Any?>()
+    private fun getColumn(columnName: String, results: List<Map<String, Any?>>): List<Any?> {
+        val columnValues = mutableListOf<Any?>()
         for (result in results) {
            columnValues.add(result[columnName])
         }
         return columnValues.toList()
     }
 
-    protected fun runQuery(queryString: String): ResultSet {
-        println("QUERY: \n$queryString")
+    private fun runQuery(queryString: String): ResultSet {
         val preparedStatement = connection.prepareStatement(queryString)
         return preparedStatement.executeQuery()
     }
 
-    protected fun runUpdate(queryString: String): Int {
-        println("QUERY: \n$queryString")
+    private fun runUpdate(queryString: String): Int {
         val preparedStatement = connection.prepareStatement(queryString)
         return preparedStatement.executeUpdate()
     }
 
-    protected fun selectAll(): List<Map<String, Any>> {
+    protected fun selectAll(): List<Map<String, Any?>> {
         return select(listOf("*"))
     }
 
@@ -59,7 +57,7 @@ open class ConnectionSQL(val tableName: String, private val connection: Connecti
         return getColumn(column, selectAll())
     }
 
-    protected fun selectAll(filters: QueryConditions): List<Map<String, Any>> {
+    protected fun selectAll(filters: QueryConditions): List<Map<String, Any?>> {
         return select(listOf("*"), filters)
     }
 
@@ -67,7 +65,7 @@ open class ConnectionSQL(val tableName: String, private val connection: Connecti
         return getColumn(column, selectAll(filters))
     }
 
-    protected fun selectAll(sorters: QuerySorters): List<Map<String, Any>> {
+    protected fun selectAll(sorters: QuerySorters): List<Map<String, Any?>> {
         return select(listOf("*"), null, sorters)
     }
 
@@ -75,44 +73,45 @@ open class ConnectionSQL(val tableName: String, private val connection: Connecti
         return getColumn(column, selectAll(sorters))
     }
 
-    protected fun select(columns: List<String>): List<Map<String, Any>> {
+    protected fun select(columns: List<String>): List<Map<String, Any?>> {
         return select(columns, null, null)
     }
 
-    protected fun select(columns: List<String>, filters: QueryConditions): List<Map<String, Any>> {
+    protected fun select(columns: List<String>, filters: QueryConditions): List<Map<String, Any?>> {
         return select(columns, filters, null)
     }
 
-    protected fun select(columns: List<String>, filters: QueryConditions?, sorters: QuerySorters?): List<Map<String, Any>> {
+    protected fun select(columns: List<String>, filters: QueryConditions?, sorters: QuerySorters?): List<Map<String, Any?>> {
         var queryString = "SELECT ${columns.joinToString(", ")} FROM $tableName"
-        if(filters != null) queryString +=  " ${filters.getConditions()}"
-        if(sorters != null) queryString +=  " ${sorters.getOrderBy()}"
+        if(filters != null) queryString +=  " $filters"
+        if(sorters != null) queryString +=  " $sorters"
         val resultSet = runQuery(queryString)
         return getResultSetAsList(resultSet)
     }
 
-    protected fun insert(columnsAndValues: Map<String, Any>): Boolean {
-        var queryString = columnsAndValues.toList().joinToString(separator = ", ", prefix = "INSERT INTO $tableName(", postfix = ") " ) { "${it.first}"}
-        queryString += columnsAndValues.toList().joinToString(separator = ", ", prefix = "VALUES (", postfix = ")" ) { "${castValue(it.second)}"}
+    protected fun insert(columnsAndValues: Map<String, Any?>): Boolean {
+        var queryString = columnsAndValues.toList().joinToString(separator = ", ", prefix = "INSERT INTO $tableName (", postfix = ") " ) { "${it.first}"}
+        queryString += columnsAndValues.toList().joinToString(separator = ", ", prefix = " VALUES (", postfix = ")" ) { "${castValue(it.second)}"}
         val rows = runUpdate(queryString)
         return rows > 0
     }
 
-    protected fun update(columnsAndValues: Map<String, Any>): Boolean {
+    protected fun update(columnsAndValues: Map<String, Any?>): Boolean {
         return update(columnsAndValues, null)
     }
 
-    protected fun update(columnsAndValues: Map<String, Any>, filters: QueryConditions?): Boolean {
+    protected fun update(columnsAndValues: Map<String, Any?>, filters: QueryConditions?): Boolean {
         var queryString = "UPDATE $tableName SET "
         queryString += columnsAndValues.toList().joinToString(separator = ", ") { "${it.first} = ${castValue(it.second)}"}
-        if(filters != null) queryString +=  " ${filters.getConditions()}"
+        if(filters != null) queryString +=  " $filters"
         val rows = runUpdate(queryString)
         return rows > 0
     }
 
+
     protected fun delete(filters: QueryConditions?): Boolean {
         var queryString = "DELETE FROM $tableName"
-        if(filters != null) queryString +=  " ${filters.getConditions()}"
+        if(filters != null) queryString +=  " $filters"
         val rows = runUpdate(queryString)
         return rows > 0
     }

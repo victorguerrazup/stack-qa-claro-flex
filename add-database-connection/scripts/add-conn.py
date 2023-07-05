@@ -21,6 +21,8 @@ def run(metadata: Metadata = None):
 
 def mount_connection_function(inputs: dict):
   return ''.join(['companion object {\n',
+  '\n',
+  '       @JvmStatic\n'
   '       fun ' + inputs['database_name_camelcase'] + 'Connection() : Connection {\n',
   '          val ' + inputs['database_name_camelcase'] + 'Prefix = "' + inputs['database_properties_prefix'] + '"\n',
   '          val connection: Connection?\n',

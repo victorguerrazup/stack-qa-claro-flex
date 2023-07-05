@@ -1,0 +1,54 @@
+schema-version: v1
+kind: plugin
+metadata:
+  name: add-table
+  display-name: add-table
+  description: Adiciona uma nova tabela do banco de dados
+  version: 1.0.0
+  picture: plugin.png
+spec:
+  type: app
+  about: docs/about.md
+  implementation: docs/implementation.md
+  release-notes: docs/release-notes-1.0.0.md
+  requirements: docs/requirements.md
+  technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies
+    - "Kotlin"
+    - "PostgreSQL"
+  compatibility:
+    - kotlin
+
+  inputs:
+    - label: Nome da base dados
+      type: text
+      name: database_name
+      default: database
+      pattern: "[A-z0-9-_\\.]+"
+      help: Informe o nome da base de dados
+    - label: Nome da tabela
+      name: table_name
+      type: text
+      required: true
+      default: table
+      pattern: "[A-z0-9-_]+"
+      help: "Nome da tabela no banco de dados (ex.: table)"
+    - label: Nome do esquema
+      name: schema_name
+      type: text
+      required: false
+      pattern: "[A-z0-9-_]+"
+      help: "Nome do esquema no banco de dados, quando houver (ex.: public)"
+  
+  hooks:
+    - type: run
+      trigger: after-render
+      linux:
+      - git add .
+      mac:
+      - git add .
+      windows:
+      - cmd /c git add .
+
+  computed_inputs:
+    table_name_pascalcase: "{{table_name|pascalcase}}"
+    database_name_camelcase: "{{database_name|camelcase}}"
