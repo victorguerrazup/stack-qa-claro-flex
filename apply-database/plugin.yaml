@@ -5,7 +5,7 @@ spec:
   requirements: docs/requirements.md
   implementation: docs/implementation.md
   type: app
-  release-notes: docs/release-notes-0.0.1.md
+  release-notes: docs/release-notes-1.0.0.md
   usage: docs/usage.md
   technologies: # Ref: https://docs.stackspot.com/docs/create-stacks/yaml-files/yaml/#technologies
   - "Kotlin"
