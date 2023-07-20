@@ -9,12 +9,12 @@ import validations.{{service_name_pascal}}Validate
 class {{service_name_pascal}}Tests : Base() {
 
     private val {{service_name_camelcase}} = {{service_name_pascal}}()
-    private val {{service_name_camelcase}}Validate= {{service_name_pascal}}Validate()
+    private val {{service_name_camelcase}}Validate = {{service_name_pascal}}Validate()
     private val mass = Mass()
 
     @Test
     fun my_test() {
-        val response =  {{service_name_camelcase}}.get()
+        val response = {{service_name_camelcase}}.get()
         {{service_name_camelcase}}Validate.responseSuccess(response)
     }
 }

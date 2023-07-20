@@ -9,7 +9,7 @@ import io.restassured.module.kotlin.extensions.When
 import io.restassured.response.Response
 import pojos.{{service_name_pascal}}Pojo
 
-class {{service_name_pascal}} : Base() {
+class {{service_name_pascal}}: Base() {
 
   private val {{service_name_camelcase}}Const = {{service_name_pascal}}Const()
   private val baseConst = BaseConst()
