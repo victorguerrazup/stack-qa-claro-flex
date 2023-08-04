@@ -2,8 +2,9 @@
         val response = Given {
             spec(specificationBase())
             basePath(baseConst.PATH)
-{%if has_body == true %}            contentType(ContentType.JSON)
-            body({{service_name_camelcase}}Pojo){% endif %}
+{%if has_body == false %}            contentType(ContentType.JSON)
+            body({{service_name_camelcase}}Pojo)
+{% endif %}
         } When {
             //Confira se o caminho esta correto
             {{service_method_lower}}({{service_name_camelcase}}Const.PATH_{{service_name_macrocase}})

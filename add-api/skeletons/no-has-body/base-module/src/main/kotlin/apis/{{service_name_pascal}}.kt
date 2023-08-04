@@ -17,7 +17,7 @@ class {{service_name_pascal}} : Base() {
             spec(specificationAuthenticated())
             basePath(baseConst._PATH)
         } When {
-            {{service_method_lower}}({{service_name_camelcase}}Const.PATH_{{service_name_macrocase}}))
+            {{service_method_lower}}({{service_name_camelcase}}Const.PATH_{{service_name_macrocase}})
         } Extract {
             response()
         }

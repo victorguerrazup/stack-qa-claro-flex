@@ -11,10 +11,34 @@ def run(metadata: Metadata = None):
 
     apiFile = path.join(target_path, 'base-module', 'src', 'main', 'kotlin', 'apis', computed_inputs['service_name_pascal'] + '.kt')
     pojoFile = path.join(target_path, 'base-module', 'src', 'main', 'kotlin', 'pojos', computed_inputs['service_name_pascal'] + 'Pojo.kt')
+    factoryFile = path.join(target_path, 'base-module', 'src', 'main', 'kotlin', 'factories', computed_inputs['service_name_pascal'] + 'Factory.kt')
 
     if not path.exists(pojoFile):
       with open(pojoFile, 'w') as pojo:
-        pojo.writelines(['package pojos\n', '\n', '//Defina o POJO\n', 'class ' + computed_inputs['service_name_pascal'] +'Pojo {}'])
+        pojo.writelines([
+          'package pojos\n', 
+          '\n\n', 
+          '//Defina o POJO\n', 
+          f'class {computed_inputs["service_name_pascal"]}Pojo {{}}'
+        ])
+
+    if not path.exists(factoryFile):
+      with open(factoryFile, 'w') as pojo:
+        pojo.writelines([
+          'package factories\n',
+          f'import pojos.{computed_inputs["service_name_pascal"]}Pojo\n',
+          'import utils.Mass\n',
+          '\n',
+          f'class {computed_inputs["service_name_pascal"]}Factory {{\n',
+          '\n',
+          '    private val mass = Mass()\n',
+          '\n',
+          f'    fun myFactory(): {computed_inputs["service_name_pascal"]}Pojo {{\n',
+          f'        val {computed_inputs["service_name_camelcase"]}Pojo = {computed_inputs["service_name_pascal"]}Pojo()\n',
+          f'        return {computed_inputs["service_name_camelcase"]}Pojo\n',
+          '    }\n',
+          '}'
+        ])
     
     api = open(apiFile, 'rt')
     apiData = api.read()

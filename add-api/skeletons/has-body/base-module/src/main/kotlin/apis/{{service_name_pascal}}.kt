@@ -21,7 +21,7 @@ class {{service_name_pascal}} : Base() {
             contentType(ContentType.JSON)
             body({{service_name_camelcase}}Pojo)
         } When {
-            {{service_method_lower}}({{service_name_camelcase}}Const.PATH_{{service_name_macrocase}}))
+            {{service_method_lower}}({{service_name_camelcase}}Const.PATH_{{service_name_macrocase}})
         } Extract {
             response()
         }
