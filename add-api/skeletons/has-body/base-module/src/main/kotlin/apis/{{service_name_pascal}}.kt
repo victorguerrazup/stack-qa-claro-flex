@@ -9,19 +9,19 @@ import io.restassured.module.kotlin.extensions.When
 import io.restassured.response.Response
 import pojos.{{service_name_pascal}}Pojo
 
-class {{service_name_pascal}}: Base() {
+class {{service_name_pascal}} : Base() {
 
-  private val {{service_name_camelcase}}Const = {{service_name_pascal}}Const()
-  private val baseConst = BaseConst()
+    private val {{service_name_camelcase}}Const = {{service_name_pascal}}Const()
+    private val baseConst = BaseConst()
 
-  fun {{service_method_lower}}({{service_name_camelcase}}Pojo: {{service_name_pascal}}Pojo) : Response {
+    fun {{service_method_lower}}({{service_name_camelcase}}Pojo: {{service_name_pascal}}Pojo): Response {
         val response = Given {
-            spec(specificationBase())
-            basePath(baseConst.PATH)
+            spec(specificationAuthenticated())
+            basePath(baseConst._PATH)
             contentType(ContentType.JSON)
             body({{service_name_camelcase}}Pojo)
         } When {
-            {{service_method_lower}}({{service_name_camelcase}}Const.PATH_{{service_name_macrocase}})
+            {{service_method_lower}}({{service_name_camelcase}}Const.PATH_{{service_name_macrocase}}))
         } Extract {
             response()
         }

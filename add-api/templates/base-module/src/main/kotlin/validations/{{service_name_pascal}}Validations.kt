@@ -6,7 +6,7 @@ import org.junit.jupiter.api.assertAll
 
 class {{service_name_pascal}}Validate {
 
-    fun responseSuccess(response: Response ) {
+    fun responseSuccess(response: Response) {
         assertAll("{{service_name_pascal}} Success",
             { Assertions.assertNotNull(response) },
             { Assertions.assertEquals(200, response.statusCode) }

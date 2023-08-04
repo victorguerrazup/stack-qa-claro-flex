@@ -5,7 +5,7 @@ class {{table_name_pascalcase}} : ConnectionSQL(
     {{database_name_camelcase}}Connection()
 ) {
 
-  fun getAll(): List<Map<String, Any?>> {
+    fun getAll(): List<Map<String, Any?>> {
         return selectAll()
     }
 }
