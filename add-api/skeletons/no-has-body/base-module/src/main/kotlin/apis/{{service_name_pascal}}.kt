@@ -14,8 +14,8 @@ class {{service_name_pascal}} : Base() {
 
     fun {{service_method_lower}}(): Response {
         val response = Given {
-            spec(specificationAuthenticated())
-            basePath(baseConst._PATH)
+            spec(specificationBase())
+            basePath(baseConst.PATH)
         } When {
             {{service_method_lower}}({{service_name_camelcase}}Const.PATH_{{service_name_macrocase}})
         } Extract {

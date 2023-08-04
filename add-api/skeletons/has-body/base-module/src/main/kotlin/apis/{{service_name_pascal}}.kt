@@ -16,8 +16,8 @@ class {{service_name_pascal}} : Base() {
 
     fun {{service_method_lower}}({{service_name_camelcase}}Pojo: {{service_name_pascal}}Pojo): Response {
         val response = Given {
-            spec(specificationAuthenticated())
-            basePath(baseConst._PATH)
+            spec(specificationBase())
+            basePath(baseConst.PATH)
             contentType(ContentType.JSON)
             body({{service_name_camelcase}}Pojo)
         } When {
