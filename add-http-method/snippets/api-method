@@ -2,7 +2,7 @@
         val response = Given {
             spec(specificationBase())
             basePath(baseConst.PATH)
-{%if has_body == false %}            contentType(ContentType.JSON)
+{%if has_body == true %}            contentType(ContentType.JSON)
             body({{service_name_camelcase}}Pojo)
 {% endif %}
         } When {
